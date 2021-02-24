@@ -29,7 +29,9 @@ import { rw } from './helper/helperFunction'
 const app = express();
 app.use(json());
 app.use("/api/v1", [userRouter, itemRouter, storeRouter, orderRouter]);
-
+app.get('/favicon.ico', function (req, res) {
+    res.sendStatus(204);
+});
 app.use(function (req, res, next) {
     res.send(rw(__filename, false, "Invalid url"));
 })
