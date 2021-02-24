@@ -4,10 +4,6 @@ import logging from "./src/config/logging";
 import app from './src/index'
 import * as cron from 'node-cron';
 import shipOrders from './src/helper/cronFunction'
-import { fstat } from "fs";
-import dotenv from 'dotenv';
-
-dotenv.config();
 
 /**
  * This is a setup script which runs whenever application is started. This will connect mongoDB
@@ -45,8 +41,8 @@ let dailyScript = undefined;
     process.on('SIGUSR2', cleanUp);
     process.on('uncaughtException', cleanUp);
 
-    app.listen(process.env.PORT, () => {
-        logging.info(`Server is listening on port ${process.env.PORT}`, __filename);
+    app.listen(config.server.port, () => {
+        logging.info(`Server is listening on port ${config.server.port}`, __filename);
         let maxFailAttemp = 5;
         dailyScript = cron.schedule('59 23 * * *', async () => {
             await shipOrders(maxFailAttemp);
