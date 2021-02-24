@@ -45,8 +45,8 @@ let dailyScript = undefined;
     process.on('SIGUSR2', cleanUp);
     process.on('uncaughtException', cleanUp);
 
-    app.listen(process.env.port, () => {
-        logging.info(`Server is listening on port ${process.env.port}`, __filename);
+    app.listen(process.env.PORT, () => {
+        logging.info(`Server is listening on port ${process.env.PORT}`, __filename);
         let maxFailAttemp = 5;
         dailyScript = cron.schedule('59 23 * * *', async () => {
             await shipOrders(maxFailAttemp);
