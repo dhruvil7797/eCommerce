@@ -5,6 +5,9 @@ import app from './src/index'
 import * as cron from 'node-cron';
 import shipOrders from './src/helper/cronFunction'
 import { fstat } from "fs";
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 /**
  * This is a setup script which runs whenever application is started. This will connect mongoDB
@@ -31,7 +34,7 @@ import { fstat } from "fs";
 
 let dailyScript = undefined;
 (async () => {
-
+    logging.info("Trying to connect at " + process.env.port, __filename);
     await mongoose.connect(config.mongo.url, config.mongo.options);
     logging.info("DB Connected at " + config.mongo.host, __filename);
 
@@ -42,8 +45,8 @@ let dailyScript = undefined;
     process.on('SIGUSR2', cleanUp);
     process.on('uncaughtException', cleanUp);
 
-    app.listen(config.server.port, () => {
-        logging.info(`Server is listening on port ${config.server.port}`, __filename);
+    app.listen(process.env.port, () => {
+        logging.info(`Server is listening on port ${process.env.port}`, __filename);
         let maxFailAttemp = 5;
         dailyScript = cron.schedule('59 23 * * *', async () => {
             await shipOrders(maxFailAttemp);
