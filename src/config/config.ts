@@ -5,7 +5,7 @@ dotenv.config();
 const MONGO_OPTIONS = {
     useCreateIndex: true,
     useFindAndModify: false,
-    useUnifiedTopology: false,
+    useUnifiedTopology: true,
     useNewUrlParser: true,
     socketTimeoutMS: 30000,
     keepAlive: true,
@@ -30,7 +30,7 @@ const testConfig = {
     host: MONGO_TEST_HOST,
     password: MONGO_PASSWORD,
     username: MONGO_USERNAME,
-    options: MONGO_OPTIONS,
+    options: {...MONGO_OPTIONS, useUnifiedTopology:false},
     url: `mongodb+srv://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_TEST_HOST}?useUnifiedTopology=false`
 }
 
